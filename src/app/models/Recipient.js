@@ -17,6 +17,15 @@ class Recipient extends Model {
 
     return this;
   }
+
+  toJSON() {
+    const recipient = this.dataValues;
+
+    delete recipient.createdAt;
+    delete recipient.updatedAt;
+
+    return recipient;
+  }
 }
 
 export default Recipient;
