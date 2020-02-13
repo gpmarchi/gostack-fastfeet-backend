@@ -27,6 +27,7 @@ class DeliverymanController {
       email: Yup.string()
         .email()
         .required(),
+      avatar_id: Yup.number(),
     });
 
     if (!(await validationSchema.isValid(req.body))) {
@@ -60,6 +61,7 @@ class DeliverymanController {
     const validationSchema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
+      avatar_id: Yup.number(),
     });
 
     if (!(await validationSchema.isValid(req.body))) {
