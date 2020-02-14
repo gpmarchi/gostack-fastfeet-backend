@@ -1,4 +1,7 @@
 import * as Yup from 'yup';
+
+import Mail from '../../lib/Mail';
+
 import Parcel from '../models/Parcel';
 import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
@@ -59,15 +62,15 @@ class ParcelController {
       return res.status(400).json({ error: 'Field validation failed.' });
     }
 
-    const isRecipient = await Recipient.findByPk(req.body.recipient_id);
+    const recipient = await Recipient.findByPk(req.body.recipient_id);
 
-    if (!isRecipient) {
+    if (!recipient) {
       return res.status(400).json({ error: 'Recipient not found.' });
     }
 
-    const isDeliveryman = await Deliveryman.findByPk(req.body.deliveryman_id);
+    const deliveryman = await Deliveryman.findByPk(req.body.deliveryman_id);
 
-    if (!isDeliveryman) {
+    if (!deliveryman) {
       return res.status(400).json({ error: 'Deliveryman not found.' });
     }
 
@@ -76,6 +79,19 @@ class ParcelController {
     delete newParcel.end_date;
 
     const parcel = await Parcel.create(newParcel);
+
+    await Mail.sendMail({
+      to: `${deliveryman.name} <${deliveryman.email}>`,
+      subject: '[FastFeet] 🏃️ Você tem uma nova encomenda a ser entregue 🏃‍♀️️',
+      template: 'new-parcel-notification',
+      context: {
+        deliveryman: deliveryman.name,
+        product: parcel.product,
+        recipient: recipient.name,
+        state: recipient.state,
+        city: recipient.city,
+      },
+    });
 
     return res.json(parcel);
   }
