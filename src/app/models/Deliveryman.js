@@ -13,6 +13,15 @@ class Deliveryman extends Model {
     return this;
   }
 
+  toJSON() {
+    const deliveryman = this.dataValues;
+
+    delete deliveryman.createdAt;
+    delete deliveryman.updatedAt;
+
+    return deliveryman;
+  }
+
   static associate(models) {
     this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' });
   }

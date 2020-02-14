@@ -15,6 +15,15 @@ class Parcel extends Model {
     return this;
   }
 
+  toJSON() {
+    const parcel = this.dataValues;
+
+    delete parcel.createdAt;
+    delete parcel.updatedAt;
+
+    return parcel;
+  }
+
   static associate(models) {
     this.belongsTo(models.Recipient, {
       foreignKey: 'recipient_id',
