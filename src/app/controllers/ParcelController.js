@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
-import Mail from '../../lib/Mail';
+import Queue from '../../lib/Queue';
+import NewParcelMail from '../jobs/NewParcelMail';
 
 import Parcel from '../models/Parcel';
 import Recipient from '../models/Recipient';
@@ -80,18 +81,7 @@ class ParcelController {
 
     const parcel = await Parcel.create(newParcel);
 
-    await Mail.sendMail({
-      to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: '[FastFeet] 🏃️ Você tem uma nova encomenda a ser entregue 🏃‍♀️️',
-      template: 'new-parcel-notification',
-      context: {
-        deliveryman: deliveryman.name,
-        product: parcel.product,
-        recipient: recipient.name,
-        state: recipient.state,
-        city: recipient.city,
-      },
-    });
+    await Queue.add(NewParcelMail.key, { deliveryman, parcel, recipient });
 
     return res.json(parcel);
   }
