@@ -36,6 +36,44 @@ class DeliveryController {
 
     return res.json(parcels);
   }
+
+  async store(req, res) {
+    const { id, parcelId } = req.params;
+
+    const parcel = await Parcel.findOne({
+      where: {
+        id: parcelId,
+        deliveryman_id: id,
+      },
+    });
+
+    if (!parcel) {
+      return res.status(404).json({ error: 'Parcel not found.' });
+    }
+
+    if (!parcel.start_date) {
+      return res
+        .status(400)
+        .json({ error: 'Parcel have not been picked up yet.' });
+    }
+
+    if (!req.file) {
+      return res
+        .status(400)
+        .json({ error: 'You must provide a signature file.' });
+    }
+
+    const { originalname: original_name, filename } = req.file;
+
+    const file = await File.create({ original_name, filename });
+
+    parcel.end_date = new Date();
+    parcel.signature_id = file.id;
+
+    await parcel.save();
+
+    return res.json(parcel);
+  }
 }
 
 export default new DeliveryController();

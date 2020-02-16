@@ -18,6 +18,12 @@ const upload = multer(multerConfig);
 routes.post('/sessions', SessionController.store);
 
 routes.get('/deliveryman/:id/deliveries', DeliveryController.index);
+routes.post(
+  '/deliveryman/:id/deliveries/:parcelId',
+  upload.single('file'),
+  DeliveryController.store
+);
+
 routes.post('/deliveryman/:id/pickups/:parcelId', PickupController.store);
 
 routes.use(authMiddleware);
