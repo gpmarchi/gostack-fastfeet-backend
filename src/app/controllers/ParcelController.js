@@ -54,9 +54,7 @@ class ParcelController {
     const validationSchema = Yup.object().shape({
       recipient_id: Yup.number().required(),
       deliveryman_id: Yup.number().required(),
-      signature_id: Yup.number(),
       product: Yup.string().required(),
-      canceled_at: Yup.date(),
     });
 
     if (!(await validationSchema.isValid(req.body))) {
@@ -76,6 +74,8 @@ class ParcelController {
     }
 
     const newParcel = req.body;
+    delete newParcel.signature_id;
+    delete newParcel.cancelled_at;
     delete newParcel.start_date;
     delete newParcel.end_date;
 
@@ -98,9 +98,8 @@ class ParcelController {
     const validationSchema = Yup.object().shape({
       recipient_id: Yup.number().required(),
       deliveryman_id: Yup.number().required(),
-      signature_id: Yup.number(),
       product: Yup.string().required(),
-      canceled_at: Yup.date(),
+      cancelled_at: Yup.date(),
     });
 
     if (!(await validationSchema.isValid(req.body))) {
@@ -120,6 +119,7 @@ class ParcelController {
     }
 
     const newParcel = req.body;
+    delete newParcel.signature_id;
     delete newParcel.start_date;
     delete newParcel.end_date;
 
