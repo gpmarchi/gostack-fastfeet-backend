@@ -41,7 +41,7 @@ class PickupController {
     });
 
     if (!parcel) {
-      return res.status(400).json({ error: 'Parcel not found.' });
+      return res.status(404).json({ error: 'Parcel not found.' });
     }
 
     parcel.start_date = new Date();
