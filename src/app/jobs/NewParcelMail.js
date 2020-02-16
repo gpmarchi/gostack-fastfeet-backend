@@ -14,6 +14,7 @@ class NewParcelMail {
       template: 'new-parcel-notification',
       context: {
         deliveryman: deliveryman.name,
+        parcelId: parcel.id,
         product: parcel.product,
         recipient: recipient.name,
         state: recipient.state,
