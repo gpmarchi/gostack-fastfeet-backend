@@ -37,6 +37,7 @@ class PickupController {
       where: {
         id: parcelId,
         deliveryman_id: id,
+        cancelled_at: null,
       },
     });
 
