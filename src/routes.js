@@ -11,6 +11,7 @@ import DeliverymanController from './app/controllers/DeliverymanController';
 import ParcelController from './app/controllers/ParcelController';
 import DeliveryController from './app/controllers/DeliveryController';
 import PickupController from './app/controllers/PickupController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 const routes = new Router();
 const upload = multer(multerConfig);
@@ -25,6 +26,8 @@ routes.post(
 );
 
 routes.post('/deliveryman/:id/pickups/:parcelId', PickupController.store);
+
+routes.post('/delivery/:parcelId/problems', DeliveryProblemController.store);
 
 routes.use(authMiddleware);
 
@@ -47,5 +50,10 @@ routes.get('/parcels/:id', ParcelController.show);
 routes.post('/parcels', ParcelController.store);
 routes.patch('/parcels/:id', ParcelController.update);
 routes.delete('/parcels/:id', ParcelController.delete);
+
+routes.get('/delivery/problems', DeliveryProblemController.index);
+routes.get('/delivery/:parcelId/problems', DeliveryProblemController.show);
+
+routes.delete('/problems/:id/delivery', DeliveryProblemController.delete);
 
 export default routes;
