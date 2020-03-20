@@ -1,5 +1,4 @@
 import * as Yup from 'yup';
-import { QueryTypes } from 'sequelize';
 
 import Queue from '../../lib/Queue';
 import CancelledParcelMail from '../jobs/CancelledParcelMail';
@@ -13,33 +12,25 @@ class DeliveryProblemController {
   async index(req, res) {
     const { page = 1 } = req.query;
 
-    const problems = await DeliveryProblem.sequelize.query(
-      'SELECT DISTINCT("DeliveryProblem"."parcel_id") AS "parcel_id", "parcel"."product" AS "parcel.product","parcel"."start_date" AS "parcel.start_date","parcel->deliveryman"."id" AS "parcel.deliveryman.id","parcel->deliveryman"."name" AS "parcel.deliveryman.name" FROM "delivery_problems" AS "DeliveryProblem" LEFT OUTER JOIN "parcels" AS "parcel" ON "DeliveryProblem"."parcel_id" = "parcel"."id" LEFT OUTER JOIN "deliverymen" AS "parcel->deliveryman" ON "parcel"."deliveryman_id" = "parcel->deliveryman"."id" ORDER BY "parcel"."start_date" ASC LIMIT :limit OFFSET :offset',
-      {
-        replacements: { limit: 20, offset: (page - 1) * 20 },
-        type: QueryTypes.SELECT,
-      }
-    );
-
-    // const problems = await DeliveryProblem.findAll({
-    //   limit: 20,
-    //   offset: (page - 1) * 20,
-    //   attributes: [[fn('DISTINCT', col('parcel_id')), 'parcel_id'], 'id'],
-    //   include: [
-    //     {
-    //       model: Parcel,
-    //       as: 'parcel',
-    //       attributes: ['product', 'start_date'],
-    //       include: [
-    //         {
-    //           model: Deliveryman,
-    //           as: 'deliveryman',
-    //           attributes: ['name'],
-    //         },
-    //       ],
-    //     },
-    //   ],
-    // });
+    const problems = await DeliveryProblem.findAll({
+      order: ['created_at'],
+      limit: 6,
+      offset: (page - 1) * 6,
+      include: [
+        {
+          model: Parcel,
+          as: 'parcel',
+          attributes: ['product', 'start_date'],
+          include: [
+            {
+              model: Deliveryman,
+              as: 'deliveryman',
+              attributes: ['name'],
+            },
+          ],
+        },
+      ],
+    });
 
     return res.json(problems);
   }
