@@ -16,7 +16,6 @@ class Deliveryman extends Model {
   toJSON() {
     const deliveryman = this.dataValues;
 
-    delete deliveryman.createdAt;
     delete deliveryman.updatedAt;
 
     return deliveryman;
