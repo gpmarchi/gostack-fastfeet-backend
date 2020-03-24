@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Queue from '../../lib/Queue';
 import NewParcelMail from '../jobs/NewParcelMail';
@@ -10,19 +11,35 @@ import File from '../models/File';
 
 class ParcelController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 6, query } = req.query;
+
+    let where = {};
+    if (query) {
+      where = { where: { product: { [Op.iLike]: `%${query}%` } } };
+    }
+
+    const total = await Parcel.count(where);
+    const totalPages = Math.ceil(total / limit);
 
     const parcels = await Parcel.findAll({
-      where: { cancelled_at: null },
-      order: ['created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      ...where,
+      order: [['created_at', 'DESC']],
+      limit,
+      offset: (page - 1) * limit,
       attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
       include: [
         {
           model: Recipient,
           as: 'recipient',
-          attributes: ['id', 'name', 'state', 'city'],
+          attributes: [
+            'id',
+            'name',
+            'street',
+            'number',
+            'zipcode',
+            'state',
+            'city',
+          ],
         },
         {
           model: Deliveryman,
@@ -36,10 +53,15 @@ class ParcelController {
             },
           ],
         },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['id', 'filename', 'url'],
+        },
       ],
     });
 
-    return res.json(parcels);
+    return res.json({ parcels, totalPages });
   }
 
   async show(req, res) {

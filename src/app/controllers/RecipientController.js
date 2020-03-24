@@ -1,14 +1,25 @@
 import * as Yup from 'yup';
+import { Op } from 'sequelize';
 
 import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 6, query } = req.query;
+
+    let where = {};
+    if (query) {
+      where = { where: { name: { [Op.iLike]: `%${query}%` } } };
+    }
+
+    const total = await Recipient.count(where);
+    const totalPages = Math.ceil(total / limit);
 
     const recipients = await Recipient.findAll({
-      limit: 20,
-      offset: (page - 1) * 20,
+      ...where,
+      order: ['name'],
+      limit,
+      offset: (page - 1) * limit,
       attributes: [
         'id',
         'name',
@@ -20,7 +31,7 @@ class RecipientController {
         'zipcode',
       ],
     });
-    return res.json(recipients);
+    return res.json({ recipients, totalPages });
   }
 
   async show(req, res) {

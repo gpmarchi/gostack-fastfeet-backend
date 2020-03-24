@@ -10,12 +10,15 @@ import Deliveryman from '../models/Deliveryman';
 
 class DeliveryProblemController {
   async index(req, res) {
-    const { page = 1 } = req.query;
+    const { page = 1, limit = 6 } = req.query;
+
+    const total = await DeliveryProblem.count();
+    const totalPages = Math.ceil(total / limit);
 
     const problems = await DeliveryProblem.findAll({
-      order: ['created_at'],
-      limit: 6,
-      offset: (page - 1) * 6,
+      order: [['created_at', 'DESC']],
+      limit,
+      offset: (page - 1) * limit,
       include: [
         {
           model: Parcel,
@@ -32,7 +35,7 @@ class DeliveryProblemController {
       ],
     });
 
-    return res.json(problems);
+    return res.json({ problems, totalPages });
   }
 
   async show(req, res) {
