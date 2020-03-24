@@ -25,6 +25,8 @@ routes.post(
   DeliveryController.store
 );
 
+routes.get('/deliverymen/:id', DeliverymanController.show);
+
 routes.post('/deliveryman/:id/pickups/:parcelId', PickupController.store);
 
 routes.post('/delivery/:parcelId/problems', DeliveryProblemController.store);
@@ -40,7 +42,7 @@ routes.patch('/recipients/:id', RecipientController.update);
 routes.delete('/recipients/:id', RecipientController.delete);
 
 routes.get('/deliverymen', DeliverymanController.index);
-routes.get('/deliverymen/:id', DeliverymanController.show);
+
 routes.post('/deliverymen', DeliverymanController.store);
 routes.patch('/deliverymen/:id', DeliverymanController.update);
 routes.delete('/deliverymen/:id', DeliverymanController.delete);
