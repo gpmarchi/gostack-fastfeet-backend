@@ -7,7 +7,7 @@ import File from '../models/File';
 class DeliveryController {
   async index(req, res) {
     const { id } = req.params;
-    const { page, status } = req.query;
+    const { page = 1, status } = req.query;
 
     const delivered = status === 'delivered';
 
