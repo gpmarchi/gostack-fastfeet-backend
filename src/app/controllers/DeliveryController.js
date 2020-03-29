@@ -24,7 +24,15 @@ class DeliveryController {
         {
           model: Recipient,
           as: 'recipient',
-          attributes: ['id', 'name', 'state', 'city'],
+          attributes: [
+            'id',
+            'name',
+            'street',
+            'number',
+            'state',
+            'city',
+            'zipcode',
+          ],
         },
         {
           model: File,
