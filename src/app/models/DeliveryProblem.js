@@ -15,7 +15,6 @@ class DeliveryProblem extends Model {
   toJSON() {
     const deliveryProblem = this.dataValues;
 
-    delete deliveryProblem.createdAt;
     delete deliveryProblem.updatedAt;
 
     return deliveryProblem;
