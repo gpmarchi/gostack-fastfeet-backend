@@ -11,21 +11,23 @@ import File from '../models/File';
 
 class ParcelController {
   async index(req, res) {
-    const { page = 1, limit = 6, query } = req.query;
+    const { page, limit, query } = req.query;
+
+    const hasPagination = page && limit;
 
     let where = {};
     if (query) {
       where = { where: { product: { [Op.iLike]: `%${query}%` } } };
     }
 
-    const total = await Parcel.count(where);
-    const totalPages = Math.ceil(total / limit);
+    const total = hasPagination && (await Parcel.count(where));
+    const totalPages = hasPagination && Math.ceil(total / limit);
 
     const parcels = await Parcel.findAll({
       ...where,
       order: [['created_at', 'DESC']],
-      limit,
-      offset: (page - 1) * limit,
+      limit: hasPagination && limit,
+      offset: hasPagination && (page - 1) * limit,
       attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
       include: [
         {
@@ -61,7 +63,7 @@ class ParcelController {
       ],
     });
 
-    return res.json({ parcels, totalPages });
+    return res.json(hasPagination ? { parcels, totalPages } : parcels);
   }
 
   async show(req, res) {

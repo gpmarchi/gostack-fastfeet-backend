@@ -10,15 +10,17 @@ import Deliveryman from '../models/Deliveryman';
 
 class DeliveryProblemController {
   async index(req, res) {
-    const { page = 1, limit = 6 } = req.query;
+    const { page, limit } = req.query;
 
-    const total = await DeliveryProblem.count();
-    const totalPages = Math.ceil(total / limit);
+    const hasPagination = page && limit;
+
+    const total = hasPagination && (await DeliveryProblem.count());
+    const totalPages = hasPagination && Math.ceil(total / limit);
 
     const problems = await DeliveryProblem.findAll({
       order: [['created_at', 'DESC']],
-      limit,
-      offset: (page - 1) * limit,
+      limit: hasPagination && limit,
+      offset: hasPagination && (page - 1) * limit,
       include: [
         {
           model: Parcel,
@@ -35,7 +37,7 @@ class DeliveryProblemController {
       ],
     });
 
-    return res.json({ problems, totalPages });
+    return res.json(hasPagination ? { problems, totalPages } : problems);
   }
 
   async show(req, res) {

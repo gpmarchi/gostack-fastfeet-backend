@@ -5,21 +5,23 @@ import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const { page = 1, limit = 6, query } = req.query;
+    const { page, limit, query } = req.query;
+
+    const hasPagination = page && limit;
 
     let where = {};
     if (query) {
       where = { where: { name: { [Op.iLike]: `%${query}%` } } };
     }
 
-    const total = await Recipient.count(where);
-    const totalPages = Math.ceil(total / limit);
+    const total = hasPagination && (await Recipient.count(where));
+    const totalPages = hasPagination && Math.ceil(total / limit);
 
     const recipients = await Recipient.findAll({
       ...where,
       order: ['name'],
-      limit,
-      offset: (page - 1) * limit,
+      limit: hasPagination && limit,
+      offset: hasPagination && (page - 1) * limit,
       attributes: [
         'id',
         'name',
@@ -31,7 +33,7 @@ class RecipientController {
         'zipcode',
       ],
     });
-    return res.json({ recipients, totalPages });
+    return res.json(hasPagination ? { recipients, totalPages } : recipients);
   }
 
   async show(req, res) {

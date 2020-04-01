@@ -7,7 +7,9 @@ import File from '../models/File';
 class DeliveryController {
   async index(req, res) {
     const { id } = req.params;
-    const { page = 1, status } = req.query;
+    const { page, limit, status } = req.query;
+
+    const hasPagination = page && limit;
 
     const delivered = status === 'delivered';
 
@@ -17,8 +19,8 @@ class DeliveryController {
         end_date: delivered ? { [Op.ne]: null } : null,
       },
       order: ['created_at'],
-      limit: 20,
-      offset: (page - 1) * 20,
+      limit: hasPagination && limit,
+      offset: hasPagination && (page - 1) * limit,
       attributes: ['id', 'product', 'start_date', 'end_date', 'created_at'],
       include: [
         {
