@@ -3,6 +3,7 @@ import { Op } from 'sequelize';
 
 import Queue from '../../lib/Queue';
 import NewParcelMail from '../jobs/NewParcelMail';
+import CancelledParcelMail from '../jobs/CancelledParcelMail';
 
 import Parcel from '../models/Parcel';
 import Recipient from '../models/Recipient';
@@ -155,11 +156,34 @@ class ParcelController {
   async delete(req, res) {
     const { id } = req.params;
 
-    const parcel = await Parcel.findByPk(id);
+    const parcel = await Parcel.findByPk(id, {
+      attributes: ['id', 'product'],
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: ['name', 'state', 'city'],
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: ['name', 'email'],
+        },
+      ],
+    });
 
     if (!parcel) {
       return res.status(400).json({ error: 'Parcel not found.' });
     }
+
+    if (parcel.cancelled_at || parcel.start_date || parcel.end_date) {
+      return res.status(400).json({ error: 'Parcel cannot be deleted.' });
+    }
+
+    await Queue.add(CancelledParcelMail.key, {
+      parcel,
+      problem: { description: 'Encomenda excluída' },
+    });
 
     parcel.destroy();
 
