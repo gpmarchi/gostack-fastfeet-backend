@@ -17,6 +17,7 @@ class DeliveryController {
       where: {
         deliveryman_id: id,
         end_date: delivered ? { [Op.ne]: null } : null,
+        cancelled_at: null,
       },
       order: ['created_at'],
       limit: hasPagination && limit,
