@@ -95,7 +95,7 @@ class DeliveryProblemController {
     }
 
     const parcel = await Parcel.findByPk(problem.parcel_id, {
-      attributes: ['id', 'product', 'cancelled_at'],
+      attributes: ['id', 'product', 'cancelled_at', 'end_date'],
       include: [
         {
           model: Recipient,
