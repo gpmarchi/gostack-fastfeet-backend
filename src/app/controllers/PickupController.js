@@ -27,7 +27,7 @@ class PickupController {
       attributes: ['id'],
     });
 
-    if (pickups.length >= 5) {
+    if (pickups.length === 5) {
       return res
         .status(400)
         .json({ error: 'Maximum number of parcel pickups reached.' });
