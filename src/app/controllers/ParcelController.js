@@ -198,7 +198,7 @@ class ParcelController {
     const { id } = req.params;
 
     const parcel = await Parcel.findByPk(id, {
-      attributes: ['id', 'product'],
+      attributes: ['id', 'product', 'cancelled_at', 'start_date', 'end_date'],
       include: [
         {
           model: Recipient,
