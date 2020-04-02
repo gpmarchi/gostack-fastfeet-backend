@@ -114,10 +114,32 @@ class ParcelController {
   async update(req, res) {
     const { id } = req.params;
 
-    let parcel = await Parcel.findByPk(id);
+    const updatedParcelData = req.body;
+    delete updatedParcelData.signature_id;
+    delete updatedParcelData.start_date;
+    delete updatedParcelData.end_date;
+    delete updatedParcelData.cancelled_at;
 
-    if (!parcel) {
-      return res.status(400).json({ error: 'Parcel not found.' });
+    const originalParcel = await Parcel.findByPk(id);
+
+    const {
+      deliveryman_id: originalDeliverymanId,
+      recipient_id: originalRecipientId,
+      product: originalProduct,
+    } = originalParcel;
+
+    if (!originalParcel) {
+      return res.status(404).json({ error: 'Parcel not found.' });
+    }
+
+    if (
+      originalParcel.cancelled_at ||
+      originalParcel.start_date ||
+      originalParcel.end_date
+    ) {
+      return res.status(400).json({
+        error: 'Not allowed to update parcel already in delivery process.',
+      });
     }
 
     const validationSchema = Yup.object().shape({
@@ -143,14 +165,33 @@ class ParcelController {
       return res.status(400).json({ error: 'Deliveryman not found.' });
     }
 
-    const newParcel = req.body;
-    delete newParcel.signature_id;
-    delete newParcel.start_date;
-    delete newParcel.end_date;
+    const updatedParcel = await originalParcel.update(updatedParcelData);
 
-    parcel = await parcel.update(newParcel);
+    if (originalDeliverymanId !== updatedParcelData.deliveryman_id) {
+      await Queue.add(NewParcelMail.key, {
+        deliveryman: isDeliveryman,
+        parcel: updatedParcel,
+        recipient: isRecipient,
+      });
 
-    return res.json(parcel);
+      const originalDeliveryman = await Deliveryman.findByPk(
+        originalDeliverymanId
+      );
+
+      const originalRecipient = await Recipient.findByPk(originalRecipientId);
+
+      await Queue.add(CancelledParcelMail.key, {
+        parcel: {
+          id: updatedParcel.id,
+          product: originalProduct,
+          deliveryman: originalDeliveryman,
+          recipient: originalRecipient,
+        },
+        problem: { description: 'Encomenda redirecionada a outro entregador' },
+      });
+    }
+
+    return res.json(updatedParcel);
   }
 
   async delete(req, res) {
