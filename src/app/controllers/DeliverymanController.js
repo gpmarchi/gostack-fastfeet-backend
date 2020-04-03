@@ -51,7 +51,9 @@ class DeliverymanController {
     });
 
     if (!deliveryman) {
-      return res.status(404).json({ error: 'Deliveryman not found.' });
+      return res.status(404).json({
+        error: 'Entregador não encontrado.',
+      });
     }
 
     return res.json(deliveryman);
@@ -67,7 +69,9 @@ class DeliverymanController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const isDeliveryman = await Deliveryman.findOne({
@@ -77,7 +81,7 @@ class DeliverymanController {
     });
 
     if (isDeliveryman) {
-      return res.status(400).json({ error: 'Deliveryman already registered.' });
+      return res.status(400).json({ error: 'Entregador já cadastrado.' });
     }
 
     const deliveryman = await Deliveryman.create(req.body);
@@ -91,7 +95,7 @@ class DeliverymanController {
     let deliveryman = await Deliveryman.findByPk(id);
 
     if (!deliveryman) {
-      return res.status(400).json({ error: 'Deliveryman not found.' });
+      return res.status(400).json({ error: 'Entregador não encontrado.' });
     }
 
     const validationSchema = Yup.object().shape({
@@ -101,7 +105,9 @@ class DeliverymanController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const existingDeliveryman = await Deliveryman.findOne({
@@ -109,7 +115,7 @@ class DeliverymanController {
     });
 
     if (existingDeliveryman && existingDeliveryman.id !== Number(id)) {
-      return res.status(400).json({ error: 'Deliveryman already registered.' });
+      return res.status(400).json({ error: 'Entregador já cadastrado.' });
     }
 
     deliveryman = await deliveryman.update(req.body);
@@ -123,7 +129,7 @@ class DeliverymanController {
     const deliveryman = await Deliveryman.findByPk(id);
 
     if (!deliveryman) {
-      return res.status(404).json({ error: 'Deliveryman not found.' });
+      return res.status(404).json({ error: 'Entregador não encontrado.' });
     }
 
     await deliveryman.destroy();

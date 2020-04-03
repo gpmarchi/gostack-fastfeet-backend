@@ -83,19 +83,21 @@ class ParcelController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const recipient = await Recipient.findByPk(req.body.recipient_id);
 
     if (!recipient) {
-      return res.status(400).json({ error: 'Recipient not found.' });
+      return res.status(400).json({ error: 'Destinatário não encontrado.' });
     }
 
     const deliveryman = await Deliveryman.findByPk(req.body.deliveryman_id);
 
     if (!deliveryman) {
-      return res.status(400).json({ error: 'Deliveryman not found.' });
+      return res.status(400).json({ error: 'Destinatário não encontrado.' });
     }
 
     const newParcel = req.body;
@@ -129,7 +131,7 @@ class ParcelController {
     } = originalParcel;
 
     if (!originalParcel) {
-      return res.status(404).json({ error: 'Parcel not found.' });
+      return res.status(404).json({ error: 'Encomenda não encontrada.' });
     }
 
     if (
@@ -150,19 +152,21 @@ class ParcelController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const isRecipient = await Recipient.findByPk(req.body.recipient_id);
 
     if (!isRecipient) {
-      return res.status(400).json({ error: 'Recipient not found.' });
+      return res.status(400).json({ error: 'Destinatário não encontrado.' });
     }
 
     const isDeliveryman = await Deliveryman.findByPk(req.body.deliveryman_id);
 
     if (!isDeliveryman) {
-      return res.status(400).json({ error: 'Deliveryman not found.' });
+      return res.status(400).json({ error: 'Entregador não encontrado.' });
     }
 
     const updatedParcel = await originalParcel.update(updatedParcelData);
@@ -214,11 +218,13 @@ class ParcelController {
     });
 
     if (!parcel) {
-      return res.status(400).json({ error: 'Parcel not found.' });
+      return res.status(400).json({ error: 'Encomenda não encontrada.' });
     }
 
     if (parcel.cancelled_at || parcel.start_date || parcel.end_date) {
-      return res.status(400).json({ error: 'Parcel cannot be deleted.' });
+      return res
+        .status(400)
+        .json({ error: 'Encomenda não pode ser excluída.' });
     }
 
     await Queue.add(CancelledParcelMail.key, {

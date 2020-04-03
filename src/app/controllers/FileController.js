@@ -3,7 +3,9 @@ import File from '../models/File';
 class FileController {
   async store(req, res) {
     if (!req.file) {
-      return res.status(400).json({ error: 'You must provide a file.' });
+      return res
+        .status(400)
+        .json({ error: 'É obrigatório o envio de um arquivo.' });
     }
 
     const { originalname: original_name, filename } = req.file;

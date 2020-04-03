@@ -60,19 +60,22 @@ class DeliveryController {
     });
 
     if (!parcel) {
-      return res.status(404).json({ error: 'Parcel not found.' });
+      return res.status(404).json({ error: 'Encomenda não encontrada.' });
     }
 
     if (!parcel.start_date) {
-      return res
-        .status(400)
-        .json({ error: 'Parcel have not been picked up yet.' });
+      return res.status(400).json({ error: 'Encomenda ainda não retirada.' });
+    }
+
+    if (parcel.end_date) {
+      return res.status(400).json({ error: 'Encomenda já finalizada.' });
     }
 
     if (!req.file) {
-      return res
-        .status(400)
-        .json({ error: 'You must provide a signature file.' });
+      return res.status(400).json({
+        error:
+          'É obrigatório o envio da imagem com a assinatura do destinatário.',
+      });
     }
 
     const { originalname: original_name, filename } = req.file;

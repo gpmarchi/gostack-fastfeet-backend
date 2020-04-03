@@ -58,7 +58,9 @@ class DeliveryProblemController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const { parcelId } = req.params;
@@ -66,15 +68,17 @@ class DeliveryProblemController {
     const parcel = await Parcel.findByPk(parcelId);
 
     if (!parcel) {
-      return res.status(404).json({ error: 'Parcel not found.' });
+      return res.status(404).json({ error: 'Encomenda não encontrada.' });
     }
 
     if (!parcel.start_date) {
-      return res.status(400).json({ error: 'Parcel not yet withdrawn.' });
+      return res
+        .status(400)
+        .json({ error: 'Encomenda ainda não foi retirada.' });
     }
 
     if (parcel.end_date) {
-      return res.status(400).json({ error: 'Parcel already delivered.' });
+      return res.status(400).json({ error: 'Encomenda já entregue.' });
     }
 
     const problem = await DeliveryProblem.create({
@@ -91,7 +95,7 @@ class DeliveryProblemController {
     const problem = await DeliveryProblem.findByPk(id);
 
     if (!problem) {
-      return res.status(404).json({ error: 'Problem not found.' });
+      return res.status(404).json({ error: 'Problema não encontrado.' });
     }
 
     const parcel = await Parcel.findByPk(problem.parcel_id, {
@@ -111,11 +115,11 @@ class DeliveryProblemController {
     });
 
     if (parcel.cancelled_at) {
-      return res.status(400).json({ error: 'Parcel already cancelled.' });
+      return res.status(400).json({ error: 'Encomenda já cancelada.' });
     }
 
     if (parcel.end_date) {
-      return res.status(400).json({ error: 'Parcel already delivered.' });
+      return res.status(400).json({ error: 'Encomenda já entregue.' });
     }
 
     parcel.cancelled_at = new Date();

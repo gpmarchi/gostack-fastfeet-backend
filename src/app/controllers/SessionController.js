@@ -14,7 +14,9 @@ class SessionController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const { email, password } = req.body;
@@ -22,11 +24,11 @@ class SessionController {
     const user = await User.findOne({ where: { email } });
 
     if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
+      return res.status(400).json({ error: 'Usuário não encontrado.' });
     }
 
     if (!(await user.checkPasswordMatch(password))) {
-      return res.status(401).json({ error: 'Password does not match.' });
+      return res.status(401).json({ error: 'Senha não confere.' });
     }
 
     const { id, name } = user;

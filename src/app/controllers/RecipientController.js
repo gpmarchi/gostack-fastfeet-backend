@@ -42,7 +42,7 @@ class RecipientController {
     const recipient = await Recipient.findByPk(id);
 
     if (!recipient) {
-      return res.status(400).json({ error: 'Recipient not found.' });
+      return res.status(400).json({ error: 'Destinatário não encontrado.' });
     }
 
     return res.json(recipient);
@@ -60,7 +60,9 @@ class RecipientController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const recipient = await Recipient.create(req.body);
@@ -74,7 +76,7 @@ class RecipientController {
     let recipient = await Recipient.findByPk(id);
 
     if (!recipient) {
-      return res.status(400).json({ error: 'Recipient not found.' });
+      return res.status(400).json({ error: 'Destinatário não encontrado.' });
     }
 
     const validationSchema = Yup.object().shape({
@@ -88,7 +90,9 @@ class RecipientController {
     });
 
     if (!(await validationSchema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     recipient = await recipient.update(req.body);
@@ -102,7 +106,7 @@ class RecipientController {
     const recipient = await Recipient.findByPk(id);
 
     if (!recipient) {
-      return res.status(400).json({ error: 'Recipient not found.' });
+      return res.status(400).json({ error: 'Destinatário não encontrado.' });
     }
 
     await recipient.destroy();

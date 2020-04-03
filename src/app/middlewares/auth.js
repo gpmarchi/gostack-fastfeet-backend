@@ -9,7 +9,7 @@ export default async (req, res, next) => {
   const [, token] = authHeader ? authHeader.split(' ') : '';
 
   if (!token) {
-    return res.status(401).json({ error: 'Invalid credentials provided.' });
+    return res.status(401).json({ error: 'Credenciais inválidas informadas.' });
   }
 
   try {
@@ -19,6 +19,6 @@ export default async (req, res, next) => {
 
     return next();
   } catch (error) {
-    return res.status(401).json({ error: 'Invalid credentials provided.' });
+    return res.status(401).json({ error: 'Credenciais inválidas informadas.' });
   }
 };

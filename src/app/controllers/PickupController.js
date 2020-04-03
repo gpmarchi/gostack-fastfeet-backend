@@ -12,7 +12,9 @@ class PickupController {
     });
 
     if (!(await validationSchema.isValid(req.params))) {
-      return res.status(400).json({ error: 'Field validation failed.' });
+      return res
+        .status(400)
+        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const { id, parcelId } = req.params;
@@ -30,7 +32,7 @@ class PickupController {
     if (pickups.length === 5) {
       return res
         .status(400)
-        .json({ error: 'Maximum number of parcel pickups reached.' });
+        .json({ error: 'Número máximo de retiradas de encomendas atingido.' });
     }
 
     const parcel = await Parcel.findOne({
@@ -42,7 +44,7 @@ class PickupController {
     });
 
     if (!parcel) {
-      return res.status(404).json({ error: 'Parcel not found.' });
+      return res.status(404).json({ error: 'Encomenda não encontrada.' });
     }
 
     parcel.start_date = new Date();
