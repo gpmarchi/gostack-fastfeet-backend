@@ -41,16 +41,11 @@ Para instalar o projeto localmente na sua máquina, clonar o repositório:
 
     git clone https://github.com/gpmarchi/gostack-fastfeet-backend.git && cd gostack-fastfeet-backend
 
-Rodar um dos comandos abaixo de acordo com seu gerenciador de pacotes para instalar as dependências:
+Rodar o comando abaixo para instalar as dependências:
 
-- npm
-  ```
-  npm install
-  ```
-- yarn (excluir o arquivo `package-lock.json` antes de rodar)
-  ```
-  yarn
-  ```
+```
+npm install
+```
 
 ## Configurações
 
