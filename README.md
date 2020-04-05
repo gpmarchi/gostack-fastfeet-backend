@@ -1,7 +1,5 @@
 # FastFeet back-end
 
----
-
 Projeto desenvolvido como exercício para certificação do Bootcamp Gostack 10 da Rocketseat. API desenvolvida em Node.js com Express para uma aplicação de transportadoras controlando as encomendas, entregadores, destinatários e problemas nas entregas.
 
 ## Tecnologias e libs utilizadas
@@ -25,8 +23,6 @@ Abaixo seguem as tecnologias utilizadas no desenvolvimento do projeto:
 
 ## Requisitos iniciais
 
----
-
 Para poder rodar o projeto, é necessário que os itens abaixo estejam instalados:
 
 - [Node.js](https://nodejs.org/en/download/)
@@ -40,8 +36,6 @@ Para poder rodar o projeto, é necessário que os itens abaixo estejam instalado
 - [Insomnia](https://insomnia.rest/download/) (ou outro cliente REST para acesso às rotas da API)
 
 ## Instalação
-
----
 
 Para instalar o projeto localmente na sua máquina, clonar o repositório:
 
@@ -58,8 +52,6 @@ Rodar um dos comandos abaixo de acordo com seu gerenciador de pacotes para insta
   yarn
 
 ## Configurações
-
----
 
 Será necessário configurar as variáveis de ambiente necessárias para rodar o projeto. Para isso criar um arquivo chamado `.env` na raiz do projeto (utilizar como exemplo o arquivo `.env.example` também presente na raiz do projeto).
 
