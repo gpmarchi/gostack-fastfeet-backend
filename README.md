@@ -44,12 +44,13 @@ Para instalar o projeto localmente na sua máquina, clonar o repositório:
 Rodar um dos comandos abaixo de acordo com seu gerenciador de pacotes para instalar as dependências:
 
 - npm
-
+  ```
   npm install
-
+  ```
 - yarn (excluir o arquivo `package-lock.json` antes de rodar)
-
+  ```
   yarn
+  ```
 
 ## Configurações
 
