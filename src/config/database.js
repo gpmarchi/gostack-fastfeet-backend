@@ -7,6 +7,7 @@ module.exports = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
   storage: './__tests__/database.sqlite',
+  logging: process.env.DB_LOGGING === 'true' ? console.log : false,
   define: {
     timestamps: true,
     underscored: true,

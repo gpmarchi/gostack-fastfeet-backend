@@ -69,6 +69,7 @@ As informações que deverão ser preenchidas:
     DB_USER=<usuário com acesso à base de dados>
     DB_PASSWORD=<senha do usuário>
     DB_NAME=<nome da base de dados>
+    DB_LOGGING=<true ou false para habilitar o logging das queries>
 
     # MAIL SENDING CONFIGS
     MAIL_HOST=<endereço do servidor smtp para envio de e-mails>
