@@ -113,4 +113,7 @@ temp/
 # MacOS files
 .DS_STORE
 
+# sqlite databases
+*.sqlite
+
 # End of https://www.gitignore.io/api/node
