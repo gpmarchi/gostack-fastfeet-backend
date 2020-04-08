@@ -8,4 +8,27 @@ factory.define('Deliveryman', Deliveryman, {
   email: faker.internet.email(),
 });
 
+factory.define('Deliverymen', Deliveryman, [
+  {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+  },
+  {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+  },
+  {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+  },
+  {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+  },
+  {
+    name: faker.name.findName(),
+    email: faker.internet.email(),
+  },
+]);
+
 export default factory;
