@@ -12,7 +12,7 @@ class DeliverymanController {
 
     let where = {};
     if (query) {
-      where = { where: { name: { [Op.iLike]: `%${query}%` } } };
+      where = { where: { name: { [Op.like]: `%${query}%` } } };
     }
 
     const total = hasPagination && (await Deliveryman.count(where));
@@ -110,12 +110,16 @@ class DeliverymanController {
         .json({ error: 'Verifique os campos do formulário.' });
     }
 
-    const existingDeliveryman = await Deliveryman.findOne({
-      where: { email: req.body.email },
-    });
+    const { email: updatedEmail } = req.body;
 
-    if (existingDeliveryman && existingDeliveryman.id !== Number(id)) {
-      return res.status(400).json({ error: 'Entregador já cadastrado.' });
+    if (updatedEmail) {
+      const existingDeliveryman = await Deliveryman.findOne({
+        where: { email: updatedEmail },
+      });
+
+      if (existingDeliveryman && existingDeliveryman.id !== Number(id)) {
+        return res.status(400).json({ error: 'Entregador já cadastrado.' });
+      }
     }
 
     deliveryman = await deliveryman.update(req.body);
