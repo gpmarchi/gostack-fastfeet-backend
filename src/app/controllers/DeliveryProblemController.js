@@ -1,5 +1,3 @@
-import * as Yup from 'yup';
-
 import Queue from '../../lib/Queue';
 import CancelledParcelMail from '../jobs/CancelledParcelMail';
 
@@ -53,16 +51,6 @@ class DeliveryProblemController {
   }
 
   async store(req, res) {
-    const validationSchema = Yup.object().shape({
-      description: Yup.string().required(),
-    });
-
-    if (!(await validationSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Verifique os campos do formulário.' });
-    }
-
     const { parcelId } = req.params;
 
     const parcel = await Parcel.findByPk(parcelId);

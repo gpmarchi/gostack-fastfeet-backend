@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { startOfDay, endOfDay } from 'date-fns';
 import { Op } from 'sequelize';
 
@@ -6,17 +5,6 @@ import Parcel from '../models/Parcel';
 
 class PickupController {
   async store(req, res) {
-    const validationSchema = Yup.object().shape({
-      id: Yup.number().required(),
-      parcelId: Yup.number().required(),
-    });
-
-    if (!(await validationSchema.isValid(req.params))) {
-      return res
-        .status(400)
-        .json({ error: 'Verifique os campos do formulário.' });
-    }
-
     const { id, parcelId } = req.params;
 
     const pickups = await Parcel.findAll({

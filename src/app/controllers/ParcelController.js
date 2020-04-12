@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import Queue from '../../lib/Queue';
@@ -76,18 +75,6 @@ class ParcelController {
   }
 
   async store(req, res) {
-    const validationSchema = Yup.object().shape({
-      recipient_id: Yup.number().required(),
-      deliveryman_id: Yup.number().required(),
-      product: Yup.string().required(),
-    });
-
-    if (!(await validationSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Verifique os campos do formulário.' });
-    }
-
     const recipient = await Recipient.findByPk(req.body.recipient_id);
 
     if (!recipient) {
@@ -142,19 +129,6 @@ class ParcelController {
       return res.status(400).json({
         error: 'Not allowed to update parcel already in delivery process.',
       });
-    }
-
-    const validationSchema = Yup.object().shape({
-      recipient_id: Yup.number().required(),
-      deliveryman_id: Yup.number().required(),
-      product: Yup.string().required(),
-      cancelled_at: Yup.date(),
-    });
-
-    if (!(await validationSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const isRecipient = await Recipient.findByPk(req.body.recipient_id);

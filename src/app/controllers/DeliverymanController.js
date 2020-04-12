@@ -1,4 +1,3 @@
-import * as Yup from 'yup';
 import { Op } from 'sequelize';
 
 import Deliveryman from '../models/Deliveryman';
@@ -60,20 +59,6 @@ class DeliverymanController {
   }
 
   async store(req, res) {
-    const validationSchema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string()
-        .email()
-        .required(),
-      avatar_id: Yup.number(),
-    });
-
-    if (!(await validationSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Verifique os campos do formulário.' });
-    }
-
     const isDeliveryman = await Deliveryman.findOne({
       where: {
         email: req.body.email,
@@ -96,18 +81,6 @@ class DeliverymanController {
 
     if (!deliveryman) {
       return res.status(400).json({ error: 'Entregador não encontrado.' });
-    }
-
-    const validationSchema = Yup.object().shape({
-      name: Yup.string(),
-      email: Yup.string().email(),
-      avatar_id: Yup.number(),
-    });
-
-    if (!(await validationSchema.isValid(req.body))) {
-      return res
-        .status(400)
-        .json({ error: 'Verifique os campos do formulário.' });
     }
 
     const { email: updatedEmail } = req.body;
