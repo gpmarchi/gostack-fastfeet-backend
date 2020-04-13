@@ -71,6 +71,10 @@ As informações que deverão ser preenchidas:
     DB_NAME=<nome da base de dados>
     DB_LOGGING=<true ou false para habilitar o logging das queries>
 
+    # REDIS
+    REDIS_HOST=<endereço de ip da máquina rodando o redis>
+    REDIS_PORT=<porta do redis>
+
     # MAIL SENDING CONFIGS
     MAIL_HOST=<endereço do servidor smtp para envio de e-mails>
     MAIL_PORT=<porta do servidor de e-mails>
