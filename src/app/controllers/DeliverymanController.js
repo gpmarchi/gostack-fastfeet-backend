@@ -3,11 +3,21 @@ import { Op } from 'sequelize';
 import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 
+import Cache from '../../lib/Cache';
+
 class DeliverymanController {
   async index(req, res) {
     const { page, limit, query } = req.query;
 
     const hasPagination = page && limit;
+
+    const cached = await Cache.get(
+      hasPagination ? `deliverymen:page:${page}` : 'deliverymen'
+    );
+
+    if (cached && !query) {
+      return res.json(cached);
+    }
 
     let where = {};
     if (query) {
@@ -31,6 +41,13 @@ class DeliverymanController {
         },
       ],
     });
+
+    if (!query) {
+      Cache.set(
+        hasPagination ? `deliverymen:page:${page}` : 'deliverymen',
+        hasPagination ? { deliverymen, totalPages } : deliverymen
+      );
+    }
 
     return res.json(hasPagination ? { deliverymen, totalPages } : deliverymen);
   }
@@ -71,6 +88,9 @@ class DeliverymanController {
 
     const deliveryman = await Deliveryman.create(req.body);
 
+    Cache.invalidateKeys('deliverymen:page:*');
+    Cache.invalidate('deliverymen');
+
     return res.json(deliveryman);
   }
 
@@ -110,6 +130,9 @@ class DeliverymanController {
     }
 
     await deliveryman.destroy();
+
+    Cache.invalidateKeys('deliverymen:page:*');
+    Cache.invalidate('deliverymen');
 
     return res.send();
   }
