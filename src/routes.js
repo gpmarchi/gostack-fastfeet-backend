@@ -1,6 +1,11 @@
 import { Router } from 'express';
 import multer from 'multer';
+import RateLimit from 'express-rate-limit';
+import RedisStore from 'rate-limit-redis';
+import Redis from 'ioredis';
+
 import multerConfig from './config/multer';
+import redisConfig from './config/redis';
 
 import authMiddleware from './app/middlewares/auth';
 
@@ -24,9 +29,25 @@ import validateDeliverymanStore from './app/validators/DeliverymanStore';
 import validateDeliverymanUpdate from './app/validators/DeliverymanUpdate';
 
 const routes = new Router();
+
 const upload = multer(multerConfig);
 
-routes.post('/sessions', validateSessionStore, SessionController.store);
+const redis = new Redis(redisConfig);
+const loginLimiter = new RateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  store: new RedisStore({
+    client: redis,
+    resetExpiryOnChange: true,
+    expiry: 60 * 5,
+  }),
+});
+
+routes.post(
+  '/sessions',
+  loginLimiter,
+  validateSessionStore,
+  SessionController.store
+);
 
 routes.get('/deliveryman/:id/deliveries', DeliveryController.index);
 routes.post(
