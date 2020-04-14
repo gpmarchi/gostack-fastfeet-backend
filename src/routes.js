@@ -33,12 +33,24 @@ const routes = new Router();
 const upload = multer(multerConfig);
 
 const redis = new Redis(redisConfig);
+
 const loginLimiter = new RateLimit({
   windowMs: 24 * 60 * 60 * 1000,
   store: new RedisStore({
     client: redis,
+    prefix: 'rl:login:',
     resetExpiryOnChange: true,
-    expiry: 60 * 5,
+    expiry: 5 * 60,
+  }),
+});
+
+const genericLimiter = new RateLimit({
+  windowMs: 24 * 60 * 60 * 1000,
+  max: 100,
+  store: new RedisStore({
+    client: redis,
+    resetExpiryOnChange: true,
+    expiry: 15 * 60,
   }),
 });
 
@@ -48,6 +60,10 @@ routes.post(
   validateSessionStore,
   SessionController.store
 );
+
+if (process.env.NODE_ENV !== 'development' && process.env.NODE_ENV !== 'test') {
+  routes.use(genericLimiter);
+}
 
 routes.get('/deliveryman/:id/deliveries', DeliveryController.index);
 routes.post(
