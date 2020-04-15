@@ -35,6 +35,10 @@ class PickupController {
       return res.status(404).json({ error: 'Encomenda não encontrada.' });
     }
 
+    if (parcel.start_date) {
+      return res.status(400).json({ error: 'Encomenda já retirada.' });
+    }
+
     parcel.start_date = new Date();
 
     await parcel.save();
