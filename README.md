@@ -90,13 +90,13 @@ As informações que deverão ser preenchidas:
 
 ### Rodando migrations e seeds
 
-Para criar as tabelas necessárias ao funcionamento da aplicação, utilizaremos o `sequelize-cli` para rodar os comandos necessários. A criação das tabelas e relacionamentos será feita através do comando:
+Para criar as tabelas necessárias ao funcionamento da aplicação, utilizaremos o `sequelize` para rodar os comandos necessários. A criação das tabelas e relacionamentos será feita através do comando:
 
     npx sequelize db:migrate
 
 E para criar o usuário principal que fará acesso às funcionalidades do sistema, precisaremos rodar um seed de criação deste usuário:
 
-    npx sequelize-cli db:seed:all
+    npx sequelize db:seed:all
 
 ## Rodando o projeto
 
