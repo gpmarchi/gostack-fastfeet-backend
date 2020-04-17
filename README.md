@@ -4,10 +4,10 @@ Projeto desenvolvido como exercício para certificação do Bootcamp Gostack 10 
 
 ## Índice
 
-- [Tecnologias e libs utilizadas](#-🤖️-tecnologias-e-libs-utilizadas)
-- [Requisitos iniciais](#-✔️-requisitos-iniciais)
-- [Instalação](#-🔔️-instalação)
-- [Configurações](#-⚙️-configurações)
+- [Tecnologias e libs utilizadas](#-tecnologias-e-libs-utilizadas)
+- [Requisitos iniciais](#-requisitos-iniciais)
+- [Instalação](#-instalação)
+- [Configurações](#-configurações)
 
 ## 🤖️ Tecnologias e libs utilizadas
 
