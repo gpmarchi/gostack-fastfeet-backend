@@ -1,5 +1,10 @@
 # FastFeet back-end
 
+<p align="center">
+  <span>Português</span> |
+  <a href="https://github.com/gpmarchi/gostack-fastfeet-backend/lang/english">English</a>
+</p>
+
 Projeto desenvolvido como exercício para certificação do Bootcamp Gostack 10 da Rocketseat. API desenvolvida em Node.js com Express para uma aplicação de transportadoras controlando as encomendas, entregadores, destinatários e problemas nas entregas.
 
 ## Índice
@@ -35,12 +40,26 @@ Para poder rodar o projeto, é necessário que os itens abaixo estejam instalado
 - [Node.js](https://nodejs.org/en/download/)
 - [npm](https://www.npmjs.com/get-npm) ou [yarn](https://classic.yarnpkg.com/en/docs/install/#mac-stable)
 - [PostgreSQL](https://www.postgresql.org/download/)
+- [Redis](https://redis.io/)
 - [git](https://git-scm.com/downloads)
 
 ### Opcionais
 
 - [Postbird](https://www.electronjs.org/apps/postbird) (ou outro cliente para acesso ao banco de dados)
 - [Insomnia](https://insomnia.rest/download/) (ou outro cliente REST para acesso às rotas da API)
+- [docker](https://www.docker.com/)
+
+Sugiro a instalação do docker com containeres para os bancos de dados utilizados na aplicação, PostgreSQL e Redis.
+
+Caso opte pela utilização dos containeres, você pode rodar os comandos abaixo para instalá-los:
+
+```bash
+docker run -d --name postgres -e POSTGRESQL_PASSWORD=<password> -p 5432:5432 postgres
+```
+
+```bash
+docker run -d --name redis -p 6379:6379 redis:alpine
+```
 
 ## 🔔️ Instalação
 
