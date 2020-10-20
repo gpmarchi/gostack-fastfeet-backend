@@ -2,7 +2,7 @@
 
 <p align="center">
   <span>Português</span> |
-  <a href="https://github.com/gpmarchi/gostack-fastfeet-backend/lang/english">English</a>
+  <a href="https://github.com/gpmarchi/gostack-fastfeet-backend/blob/master/lang/english/README.md#fastfeet-back-end">English</a>
 </p>
 
 Projeto desenvolvido como exercício para certificação do Bootcamp Gostack 10 da Rocketseat. API desenvolvida em Node.js com Express para uma aplicação de transportadoras controlando as encomendas, entregadores, destinatários e problemas nas entregas.
