@@ -195,14 +195,14 @@ Após feito o login será possível acessar qualquer rota protegida para fazer o
 
 Abaixo temos uma breve descrição com o funcionamento das rotas da aplicação. As rotas estão agrupadas de acordo com o recurso representado dentro da aplicação:
 
-- [Sessions](#-sessions)
-- [Recipients](#-recipients)
-- [Deliverymen](#-deliverymen)
-- [Files](#-files)
-- [Parcels](#-parcels)
-- [Pickups](#-pickups)
-- [Delivery problems](#-delivery-problems)
-- [Deliveries](#-deliveries)
+- [Sessions](#sessions)
+- [Recipients](#recipients)
+- [Deliverymen](#deliverymen)
+- [Files](#files)
+- [Parcels](#parcels)
+- [Pickups](#pickups)
+- [Delivery problems](#delivery-problems)
+- [Deliveries](#deliveries)
 
 ### Sessions
 

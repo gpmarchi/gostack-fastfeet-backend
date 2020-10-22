@@ -195,14 +195,14 @@ Once logged in, it's possible to access any protected route and start registerin
 
 In this section we have a brief description about the functionalities of each route in the application. The routes are grouped by each resource represented in the application:
 
-- [Sessions](#-sessions)
-- [Recipients](#-recipients)
-- [Deliverymen](#-deliverymen)
-- [Files](#-files)
-- [Parcels](#-parcels)
-- [Pickups](#-pickups)
-- [Delivery problems](#-delivery-problems)
-- [Deliveries](#-deliveries)
+- [Sessions](#sessions)
+- [Recipients](#recipients)
+- [Deliverymen](#deliverymen)
+- [Files](#files)
+- [Parcels](#parcels)
+- [Pickups](#pickups)
+- [Delivery problems](#delivery-problems)
+- [Deliveries](#deliveries)
 
 ### Sessions
 
