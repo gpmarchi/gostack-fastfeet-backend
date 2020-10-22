@@ -13,6 +13,8 @@ Projeto desenvolvido como exercício para certificação do Bootcamp Gostack 10 
 - [Requisitos iniciais](#-requisitos-iniciais)
 - [Instalação](#-instalação)
 - [Configurações](#-configurações)
+- [Rodando o projeto](#-rodando-o-projeto)
+- [Testando as funcionalidades](#-testando-as-funcionalidades)
 - [Rotas da aplicação](#-rotas-da-aplicação)
 
 ## 🤖️ Tecnologias e libs utilizadas

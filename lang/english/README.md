@@ -13,6 +13,8 @@ Project developed for certification grading in [Rocketseat's](https://rocketseat
 - [Initial requirements](#-initial-requirements)
 - [Installation](#-installation)
 - [Configurations](#-configurations)
+- [Running the project](#-running-the-project)
+- [Testing functionalities](#-testing-functionalities)
 - [Application routes](#-application-routes)
 
 ## 🤖️ Technologies and libraries used
@@ -170,7 +172,7 @@ It's also needed to start a second process (will keep running in the background)
 $ npm run queue
 ```
 
-## 👨‍💻️ Testing the functionalities
+## 👨‍💻️ Testing functionalities
 
 The application functionalities can be tested with the help of Insomnia's workspace, the chosen REST client for supporting development of the API.
 
